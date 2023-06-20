@@ -1,0 +1,36 @@
+Client Program Documentation
+===========================
+
+Building and Usage:
+-------------------
+To build the client program, use the command: make client
+To run the client program, use the command: ./client <buffer_size> [-s <packet_drop_chance>]
+
+Note that the clients ip is automatically set to local ::1 (ipv6)
+
+Command-line Arguments:
+----------------------
+- <buffer_size>: The size of the audio buffer in bytes. 
+    The actual minimum and maximum values depend on the audio being transmitted. 
+    Incorrect buffer size values will be reported while connecting to the server.
+
+- -s <packet_drop_chance> (Optional): 
+    Sets the chance of packet drop as an integer value. 
+    If provided, this flag must be followed by the packet drop chance.
+
+Significant Implementation Choices:
+-----------------------------------
+- Quality Selection: The client program supports different quality levels for audio transmission. 
+    It dynamically adjusts the quality level based on the number of dropped frames in received packets. 
+    This is done by checking how many packets are dropped every 20 frames. This number of frames can be 
+    changed in the asp.h header under the define PACKETS_Checked
+    The quality level may change frequently between normal audio, 8 bits, and missing packets.
+
+- Error Handling: The client program uses an error function that handles error messages and exits the program. 
+    Error messages must be printed before calling the error.
+
+Additional Notes:
+-----------------
+- The server program can handle only one connection at a time. 
+    If the client program returns an error, the server must be restarted before accepting a new connection.
+- Some memory leaks may be present in the program due to the SDL2 library.

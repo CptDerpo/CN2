@@ -1,0 +1,26 @@
+Server Program Documentation
+===========================
+
+Building and Usage:
+-------------------
+To build the server program, use the command: make server
+To run the server program, use the command: ./server <filename> <address> [-s <min_delay> <max_delay>]
+
+Command-line Arguments:
+----------------------
+- <filename>: The name of the file containing the audio data to be sent (must be in pcm_s16le).
+- <address>: The IP address or hostname on which the server listens for connections.
+- -s <min_delay> <max_delay>: (Optional) Sets the minimum and maximum delay in milliseconds for simulating network delays.
+    This flag also enables the out of order transmission of packets. min_delay and max_delay must be provided.
+
+Significant Implementation Choices:
+-----------------------------------
+- Quality Selection: The server listens to requests from the client, and replies to them. The client decides the quality of data
+    the server must sent. 
+- Packet transmission: The server sends data packets in bursts and other responses as single packets.
+
+Additional Notes:
+-----------------
+- The server program can only listen to 1 client and if the client disconnects, the server won't be aware of
+    this and therefore must be restarted manually. 
+
